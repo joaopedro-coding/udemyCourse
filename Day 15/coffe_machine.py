@@ -33,8 +33,8 @@ resources = {
 def print_resources(material_resource, money):
     water = material_resource["water"]
     milk = material_resource["milk"]
-    coffe = material_resource["coffee"]
-    print(f"Water: {water}ml \nMilk: {milk}ml \nCoffe: {coffe}g \nMoney: ${money}")
+    coffee = material_resource["coffee"]
+    print(f"Water: {water}ml \nMilk: {milk}ml \nCoffe: {coffee}g \nMoney: ${money}")
 
 def check_resources(coffe_type):
     for ingredients_type in coffe_type:
@@ -75,6 +75,15 @@ def deduct_resources(coffe_ingredients, drink_name):
         resources[coffe_ingredients_type] -= coffe_ingredients[coffe_ingredients_type]
     print(f"Here is your {drink_name}. Enjoy!")
 
+def replenish(material_to_replenish, quantity):
+    resources[material_to_replenish] += quantity
+    suffixes = {
+        "coffee": "g",
+        "milk": "ml",
+        "water": "ml"
+    }
+    print(f"{quantity}{suffixes[material_to_replenish]} of {material_to_replenish} was added to the machine.")
+
 is_selling = True
 shop_money = 0
 
@@ -85,6 +94,10 @@ while is_selling:
         is_selling = False
     elif coffe_choice == "report":
         print_resources(resources, shop_money)
+    elif coffe_choice == "replenish":
+        material = input("What do you want to replenish? (water/milk/coffee): ")
+        amount = int(input("How much do you want to put on the machine? "))
+        replenish(material, amount)
     else:
         drink = MENU[coffe_choice]
         if check_resources(drink["ingredients"]):
